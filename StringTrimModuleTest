@@ -1,0 +1,58 @@
+package br.com.mariah.questionai;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+@ExtendWith(SpringExtension.class)
+class StringTrimModuleTest {
+    private ObjectMapper objectMapper;
+    private StringTrimModule stringTrimModule;
+    private static final String FIELD_VALUE_WITH_SPACES = "   VALUE WITH EMPTY SPACES BEFORE AND AFTER   ";
+    private static final String FIELD_VALUE_WITHOUT_SPACES = "VALUE WITH EMPTY SPACES BEFORE AND AFTER";
+    private static final String JSON_DATA_WITH_SPACES_IN_FIELD_VALUE = "{\"FIELD\":\"" + FIELD_VALUE_WITH_SPACES + "\"}";
+
+
+    @BeforeEach
+    void setUp() {
+        objectMapper = new ObjectMapper();
+
+        stringTrimModule = new StringTrimModule();
+
+        objectMapper.registerModule(stringTrimModule);
+    }
+
+
+    @Test
+    void test_ObjectMapper_Registered_StringTrimModule_Successfully() {
+        Assertions.assertThat(this.objectMapper.getRegisteredModuleIds()).contains(this.stringTrimModule.getClass().getCanonicalName());
+    }
+
+    @Test
+    void test_Object_Deserialization_Returns_Field_Without_Unnecessary_Spaces() throws JsonProcessingException {
+        Assertions.assertThatCode(() ->  this.objectMapper.readValue(JSON_DATA_WITH_SPACES_IN_FIELD_VALUE, ExampleDTO.class)).doesNotThrowAnyException();
+
+        ExampleDTO exampleDTO = this.objectMapper.readValue(JSON_DATA_WITH_SPACES_IN_FIELD_VALUE, ExampleDTO.class);
+
+        Assertions.assertThat(exampleDTO).isNotNull();
+
+        Assertions.assertThat(exampleDTO.getField()).isEqualTo(FIELD_VALUE_WITHOUT_SPACES);
+
+    }
+
+    public static class ExampleDTO {
+
+        @JsonProperty(value = "FIELD")
+        public String field;
+
+
+        public String getField() {
+            return field;
+        }
+    }
+}

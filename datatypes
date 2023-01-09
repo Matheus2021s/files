@@ -1,0 +1,18 @@
+    private static final Map<String, Class<?>> dataTypeClassMap = Map.of(
+        "boolean", boolean.class,
+        "byte", byte.class,
+        "short", short.class,
+        "int", int.class,
+        "long", long.class,
+        "float", float.class,
+        "double", double.class,
+        "char", char.class,
+        "string", String.class,
+        "list", List.class,
+        "set", Set.class
+    );
+
+    public static Class<?> getClassForDataType(String dataType) {
+        return dataTypeClassMap.get(dataType.toLowerCase());
+    }
+}

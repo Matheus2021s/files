@@ -1,0 +1,43 @@
+public enum DataType {
+    BYTE("byte", "java.lang", Byte.class, byte.class),
+    SHORT("short", "java.lang", Short.class, short.class),
+    INT("int", "java.lang", Integer.class, int.class),
+    LONG("long", "java.lang", Long.class, long.class),
+    FLOAT("float", "java.lang", Float.class, float.class),
+    DOUBLE("double", "java.lang", Double.class, double.class),
+    BOOLEAN("boolean", "java.lang", Boolean.class, boolean.class),
+    CHAR("char", "java.lang", Character.class, char.class),
+    LOCAL_DATE("LocalDate", "java.time", LocalDate.class, null),
+    LOCAL_TIME("LocalTime", "java.time", LocalTime.class, null),
+    LOCAL_DATE_TIME("LocalDateTime", "java.time", LocalDateTime.class, null),
+    INSTANT("Instant", "java.time", Instant.class, null),
+    ZONED_DATE_TIME("ZonedDateTime", "java.time", ZonedDateTime.class, null);
+
+    private final String simpleName;
+    private final String importStatement;
+    private final Class<?> objectType;
+    private final Class<?> primitiveType;
+
+    DataType(String simpleName, String importStatement, Class<?> objectType, Class<?> primitiveType) {
+        this.simpleName = simpleName;
+        this.importStatement = importStatement;
+        this.objectType = objectType;
+        this.primitiveType = primitiveType;
+    }
+
+    public String getSimpleName() {
+        return simpleName;
+    }
+
+    public String getImportStatement() {
+        return importStatement;
+    }
+
+    public Class<?> getObjectType() {
+        return objectType;
+    }
+
+    public Class<?> getPrimitiveType() {
+        return primitiveType;
+    }
+}

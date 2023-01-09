@@ -1,0 +1,37 @@
+public class Example {
+  public <T> T getValue(String className) {
+    try {
+      Class<?> clazz = Class.forName(className);
+      return (T) getValue(clazz);
+    } catch (ClassNotFoundException e) {
+      return null;
+    }
+  }
+
+  public <T> T getValue(Class<T> clazz) {
+    switch (clazz.getName()) {
+      case "java.lang.String":
+        return clazz.cast("Hello");
+      case "java.lang.Integer":
+        return clazz.cast(123);
+      case "java.lang.Double":
+        return clazz.cast(123.456);
+      case "java.lang.Float":
+        return clazz.cast(123.456f);
+      case "java.lang.Long":
+        return clazz.cast(1234567890L);
+      case "java.lang.Short":
+        return clazz.cast((short) 123);
+      case "java.lang.Byte":
+        return clazz.cast((byte) 123);
+      case "java.lang.Character":
+        return clazz.cast('a');
+      case "java.lang.Boolean":
+        return clazz.cast(true);
+      case "java.lang.Object":
+        return clazz.cast(new Object());
+      default:
+        return null;
+    }
+  }
+}
